@@ -18,6 +18,7 @@ const UserSchema = new Schema({
     age: Number,
     posts: [PostSchema],
     likes: Number,
+    blogPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "blogPost" }],
 });
 
 UserSchema.virtual("postCount").get(function () {

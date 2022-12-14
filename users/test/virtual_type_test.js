@@ -5,7 +5,7 @@ describe("Virtual types", () => {
     it("postCount returns number of posts", (done) => {
         const joe = new User({
             name: "Joe",
-            posts: [{ title: "PostTitle" }],
+            posts: [{ title: "Post Maniac" }],
         });
 
         joe.save()

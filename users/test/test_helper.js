@@ -20,10 +20,25 @@ before((done) => {
 
 beforeEach((done) => {
     mongoose.connection.dropCollection("users", () => {
-        //Ready to run the next test!
-        done();
+        // Ready to run the next test!
+        mongoose.connection.dropCollection("comments", () => {
+            mongoose.connection.dropCollection("blopPosts", () => {
+                done();
+            });
+        });
     });
 });
+
+// beforeEach((done) => {
+//     const { users, comments, blogposts } = mongoose.connection.collections;
+//     users.drop(() => {
+//         comments.drop(() => {
+//             blogposts.drop(() => {
+//                 done();
+//             });
+//         });
+//     });
+// });
 
 after((done) => {
     mongoose.connection.close(() => {
