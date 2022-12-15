@@ -22,7 +22,7 @@ beforeEach((done) => {
     mongoose.connection.dropCollection("users", () => {
         // Ready to run the next test!
         mongoose.connection.dropCollection("comments", () => {
-            mongoose.connection.dropCollection("blopPosts", () => {
+            mongoose.connection.dropCollection("blogposts", () => {
                 done();
             });
         });

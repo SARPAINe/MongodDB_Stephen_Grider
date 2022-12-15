@@ -18,11 +18,18 @@ const UserSchema = new Schema({
     age: Number,
     posts: [PostSchema],
     likes: Number,
-    blogPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "blogPost" }],
+    blogPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "blogpost" }],
 });
 
 UserSchema.virtual("postCount").get(function () {
     return this.posts.length;
+});
+
+UserSchema.pre("remove", function (next) {
+    const BlogPost = mongoose.model("blogpost");
+    BlogPost.remove({ _id: { $in: this.blogPosts } }).then(() => {
+        next();
+    });
 });
 
 const User = mongoose.model("user", UserSchema);
