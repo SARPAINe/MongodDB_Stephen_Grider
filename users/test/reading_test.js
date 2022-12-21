@@ -9,7 +9,7 @@ describe("Reading users out of the database", () => {
         alex = new User({ name: "Alex" });
         maria = new User({ name: "Maria" });
         zach = new User({ name: "Zach" });
-        Promise.all([alex.save(), joe.save()], maria.save(), zach.save()).then(
+        Promise.all([alex.save(), joe.save(), maria.save(), zach.save()]).then(
             () => {
                 done();
             }
