@@ -28,14 +28,12 @@ app.get("/api", (req, res) => {
 });
 
 app.use((req, res, next) => {
-    console.log("entered");
     const error = new Error("Not Found :(!");
     error.status = 404;
     next(error);
 });
 
 app.use((error, req, res, next) => {
-    console.log("entered2");
     res.status(error.status || 500);
     res.send({
         error: { message: error.message },

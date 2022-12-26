@@ -1,7 +1,26 @@
-const Driver = require("../../muber/models/Driver");
+const Driver = require("../models/Driver");
 
 const index = async (req, res, next) => {
-    res.send({ hi: "there" });
+    try {
+        const { lng, lat } = req.query;
+        const point = {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+        };
+        const drivers = await Driver.aggregate([
+            {
+                $geoNear: {
+                    near: point,
+                    spherical: true,
+                    maxDistance: 200000,
+                    distanceField: "dist.calculated",
+                },
+            },
+        ]);
+        res.send(drivers);
+    } catch (err) {
+        next(err);
+    }
 };
 
 const create = async (req, res, next) => {
@@ -23,4 +42,13 @@ const edit = async (req, res, next) => {
         next(err);
     }
 };
-module.exports = { index, create, edit };
+const deleteDriver = async (req, res, next) => {
+    const driverId = req.params.id;
+    try {
+        const driver = await Driver.findByIdAndRemove({ _id: driverId });
+        res.status(204).send(driver);
+    } catch (err) {
+        next(err);
+    }
+};
+module.exports = { index, create, edit, deleteDriver };
